@@ -1,0 +1,31 @@
+
+EDA SUMMARY
+===========
+Date: 2026-03-08 16:39:51.164583
+Total Samples: 1349
+
+Gender Distribution:
+C
+Male      675
+Female    674
+Name: count, dtype: int64
+
+Stage Distribution:
+Stages
+HYPERTENSION (Stage-1)    600
+HYPERTENSION (Stage-2)    397
+HYPERTENSIVE CRISIS       240
+NORMAL                    112
+Name: count, dtype: int64
+
+Age Distribution:
+Age
+18-34    346
+35-50    346
+51-64    346
+65+      311
+Name: count, dtype: int64
+
+Blood Pressure Ranges:
+Systolic: 100.0 - 130.0
+Diastolic: 75.0 - 130.0

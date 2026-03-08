@@ -1,0 +1,19 @@
+OVERFITTING ANALYSIS
+===================
+
+                  Model  Train_Accuracy  Test_Accuracy       Gap Overfitting_Risk
+0   Logistic Regression        0.921223       0.900000  0.021223              LOW
+1         Decision Tree        1.000000       1.000000  0.000000             HIGH
+2         Random Forest        1.000000       1.000000  0.000000             HIGH
+3                   SVM        0.873031       0.837037  0.035994              LOW
+4                   KNN        0.922150       0.862963  0.059187              LOW
+5      Ridge Classifier        0.890639       0.840741  0.049899              LOW
+6  Gaussian Naive Bayes        0.860056       0.848148  0.011907              LOW
+
+
+In medical ML systems:
+1. Overfitting can lead to misdiagnosis
+2. Models should generalize to new patients
+3. Interpretability is crucial for clinical acceptance
+4. Logistic Regression balances performance and interpretability
+    

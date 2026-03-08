@@ -1,0 +1,26 @@
+Model: Ridge Classifier
+========================================
+
+Accuracy: 0.8407
+Precision: 0.8656
+Recall: 0.8407
+F1-Score: 0.8317
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      0.36      0.53        22
+           1       0.90      1.00      0.94       120
+           2       0.92      0.70      0.79        80
+           3       0.64      0.90      0.75        48
+
+    accuracy                           0.84       270
+   macro avg       0.86      0.74      0.76       270
+weighted avg       0.87      0.84      0.83       270
+
+
+Confusion Matrix:
+[[  8  14   0   0]
+ [  0 120   0   0]
+ [  0   0  56  24]
+ [  0   0   5  43]]

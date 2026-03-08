@@ -1,0 +1,4 @@
+Dataset: hypertension_data.csv
+Rows: 1825
+Columns: 14
+Columns: C, Age, History, Patient, TakeMedication, Severity, BreathShortness, VisualChanges, NoseBleeding, Whendiagnoused, Systolic, Diastolic, ControlledDiet, Stages

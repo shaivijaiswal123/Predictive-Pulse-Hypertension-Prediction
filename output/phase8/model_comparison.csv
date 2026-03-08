@@ -1,0 +1,8 @@
+Model,Accuracy,Precision,Recall,F1-Score
+Decision Tree,1.0,1.0,1.0,1.0
+Random Forest,1.0,1.0,1.0,1.0
+Logistic Regression,0.9,0.9041,0.9,0.8998
+KNN,0.863,0.8821,0.863,0.8598
+Gaussian Naive Bayes,0.8481,0.9181,0.8481,0.8447
+Ridge Classifier,0.8407,0.8656,0.8407,0.8317
+SVM,0.837,0.8546,0.837,0.8281

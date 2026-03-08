@@ -1,0 +1,8 @@
+Model,Training_Accuracy
+Logistic Regression,0.9212233549582948
+Decision Tree,1.0
+Random Forest,1.0
+SVM,0.8730305838739574
+KNN,0.9221501390176089
+Ridge Classifier,0.8906394810009268
+Gaussian Naive Bayes,0.8600556070435589

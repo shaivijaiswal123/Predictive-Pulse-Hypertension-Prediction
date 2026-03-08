@@ -1,0 +1,22 @@
+
+TRAIN-TEST SPLIT
+================
+Total samples: 1349
+Training samples: 1079 (80.0%)
+Testing samples: 270 (20.0%)
+
+Training set distribution:
+Hypertension_Stage
+0     90
+1    480
+2    317
+3    192
+Name: count, dtype: int64
+
+Testing set distribution:
+Hypertension_Stage
+0     22
+1    120
+2     80
+3     48
+Name: count, dtype: int64

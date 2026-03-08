@@ -1,0 +1,22 @@
+
+FINAL SUMMARY
+=============
+Date: 2026-03-08 16:39:51.657137
+Dataset: hypertension_data.csv
+Original samples: 1825
+After cleaning: 1349
+After encoding & NaN handling: 1349
+Features: 13
+Models trained: 7
+Best model: Decision Tree (Accuracy: 1.0000)
+Production model: Logistic Regression
+
+Output folders:
+- output/phase3/: Dataset loading outputs
+- output/phase4/: Preprocessing outputs
+- output/phase5/: EDA visualizations
+- output/phase6/: Train-test splits
+- output/phase7/: Trained models
+- output/phase8/: Evaluation results
+- output/phase9/: Overfitting analysis
+- output/phase10/: Production model
