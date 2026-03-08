@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Pulse - Hypertension Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Predictive<span class="highlight">Pulse</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" type="button">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="dashboard">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="title-section">
+                    <span class="badge">AI-Powered Clinical Decision Support</span>
+                    <h1 class="main-title">
+                        Advanced Hypertension<br>
+                        <span class="gradient-text">Risk Assessment System</span>
+                    </h1>
+                    <p class="subtitle">
+                        Evidence-based machine learning model trained on clinical data to predict hypertension stages 
+                        and provide personalized medical recommendations.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Column - Patient Form -->
+            <div class="dashboard-card form-card">
+                <div class="card-header">
+                    <div class="header-icon"><i class="fas fa-user-md"></i></div>
+                    <h2>Patient Assessment Form</h2>
+                    <p>Enter patient clinical parameters for analysis</p>
+                </div>
+
+                <form action="/predict" method="POST" id="patientForm" class="patient-form">
+                    <!-- Demographics Section -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Demographics</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-venus-mars"></i> Gender *</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" value="Male" required>
+                                        <span class="radio-label">Male</span>
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="gender" value="Female" required>
+                                        <span class="radio-label">Female</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-alt"></i> Age Group *</label>
+                                <select name="age_group" class="select-input" required>
+                                    <option value="" disabled selected>Select age range</option>
+                                    {% for age in age_groups %}
+                                    <option value="{{ age }}">{{ age }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical History Section -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-notes-medical"></i> Medical History</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Family History of Hypertension</label>
+                                <select name="history" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Patient Status</label>
+                                <select name="patient" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>On Medication</label>
+                                <select name="medication" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-clock"></i> Time Since Diagnosis</label>
+                                <select name="time_diagnosis" class="select-input">
+                                    <option value="<1 Year"><1 Year</option>
+                                    <option value="1-3 Years">1-3 Years</option>
+                                    <option value="3-5 Years">3-5 Years</option>
+                                    <option value="5+ Years">5+ Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms Section -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-thermometer-half"></i> Clinical Symptoms</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Symptom Severity</label>
+                                <select name="severity" class="select-input">
+                                    <option value="Mild">Mild</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="Severe">Severe</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Shortness of Breath</label>
+                                <select name="breath" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Visual Changes</label>
+                                <select name="visual" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nosebleeds</label>
+                                <select name="nosebleeds" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vital Signs Section -->
+                    <div class="form-section vital-section">
+                        <h3><i class="fas fa-heartbeat"></i> Vital Signs</h3>
+                        <div class="bp-inputs">
+                            <div class="bp-group">
+                                <label>Systolic BP (mmHg) *</label>
+                                <select name="systolic" class="bp-select" required>
+                                    <option value="" disabled selected>Select range</option>
+                                    {% for range in bp_ranges.systolic %}
+                                    <option value="{{ range }}">{{ range }}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="bp-range-info">Normal: < 120</span>
+                            </div>
+                            <div class="bp-divider">
+                                <i class="fas fa-divide"></i>
+                            </div>
+                            <div class="bp-group">
+                                <label>Diastolic BP (mmHg) *</label>
+                                <select name="diastolic" class="bp-select" required>
+                                    <option value="" disabled selected>Select range</option>
+                                    {% for range in bp_ranges.diastolic %}
+                                    <option value="{{ range }}">{{ range }}</option>
+                                    {% endfor %}
+                                </select>
+                                <span class="bp-range-info">Normal: < 80</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lifestyle Section -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-apple-alt"></i> Lifestyle Factors</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Controlled Diet</label>
+                                <select name="diet" class="select-input">
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <i class="fas fa-microscope"></i>
+                            <span>Analyze Patient Data</span>
+                        </button>
+                        <button type="reset" class="btn-secondary">
+                            <i class="fas fa-redo-alt"></i>
+                            <span>Reset Form</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right Column - Results -->
+            <div class="dashboard-card results-card" id="resultsCard">
+                {% if result and result.success %}
+                <div class="results-container">
+                    <!-- Result Header -->
+                    <div class="result-header" style="background: {{ result.gradient }};">
+                        <div class="result-badge">
+                            <span class="stage-icon">{{ result.icon }}</span>
+                            <span class="stage-name">{{ result.display_name }}</span>
+                        </div>
+                        <div class="risk-level-badge">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>{{ result.risk }}</span>
+                        </div>
+                    </div>
+
+                    <!-- BP Values Display -->
+                    <div class="bp-display-card">
+                        <div class="bp-item">
+                            <span class="bp-label">Systolic</span>
+                            <span class="bp-value">{{ result.bp_values.systolic }}</span>
+                            <span class="bp-unit">mmHg</span>
+                        </div>
+                        <div class="bp-separator">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="bp-item">
+                            <span class="bp-label">Diastolic</span>
+                            <span class="bp-value">{{ result.bp_values.diastolic }}</span>
+                            <span class="bp-unit">mmHg</span>
+                        </div>
+                    </div>
+
+                    <!-- Clinical Guidelines -->
+                    <div class="guidelines-box">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="guidelines-content">
+                            <h4>ACC/AHA Clinical Guidelines</h4>
+                            <p>{{ result.clinical_guidelines }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Confidence Meter -->
+                    <div class="confidence-meter">
+                        <div class="meter-header">
+                            <span><i class="fas fa-chart-pie"></i> Prediction Confidence</span>
+                            <span class="confidence-value">{{ "%.1f"|format(result.confidence) }}%</span>
+                        </div>
+                        <div class="meter-bar">
+                            <div class="meter-fill" style="width: {{ result.confidence }}%; background: {{ result.color }};"></div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="description-box" style="border-left-color: {{ result.color }};">
+                        <i class="fas fa-quote-left"></i>
+                        <p>{{ result.description }}</p>
+                    </div>
+
+                    <!-- Simple Recommendations -->
+                    <div class="recommendations-simple">
+                        <h4><i class="fas fa-tasks"></i> Recommendations</h4>
+                        <ul>
+                            {% for rec in result.recommendations %}
+                            <li><i class="fas fa-check-circle" style="color: {{ result.color }};"></i> {{ rec.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Medical Follow-up -->
+                    <div class="follow-up-card">
+                        <div class="follow-up-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span><strong>Next Checkup:</strong> {{ result.next_checkup }}</span>
+                        </div>
+                        <div class="follow-up-item">
+                            <i class="fas fa-pills"></i>
+                            <span><strong>Medication:</strong> {{ result.medication }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Actions (for Crisis) -->
+                    {% if result.emergency_actions %}
+                    <div class="emergency-section">
+                        <h4><i class="fas fa-ambulance"></i> Emergency Actions Required</h4>
+                        <div class="emergency-actions">
+                            {% for action in result.emergency_actions %}
+                            <div class="emergency-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>{{ action }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Disclaimer -->
+                    <div class="disclaimer-box">
+                        <i class="fas fa-info-circle"></i>
+                        <span>This is a screening tool only. Always consult a healthcare provider.</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-results">
+                    <i class="fas fa-stethoscope"></i>
+                    <h3>No Assessment Yet</h3>
+                    <p>Fill the patient form and click "Analyze Patient Data" to see results</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <h2 class="section-title">Understanding Hypertension Stages</h2>
+            <div class="stages-grid">
+                {% for stage_num, info in stage_info.items() %}
+                <div class="stage-card" style="border-top: 4px solid {{ info.color }};">
+                    <div class="stage-header">
+                        <span class="stage-icon">{{ info.icon }}</span>
+                        <h3>{{ info.name }}</h3>
+                    </div>
+                    <p class="stage-range">{{ info.clinical_guidelines }}</p>
+                    <p class="stage-desc">{{ info.description[:100] }}...</p>
+                    <div class="stage-risk" style="background: {{ info.light_bg }}; color: {{ info.color }};">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        {{ info.risk }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-heartbeat"></i> PredictivePulse</h4>
+                    <p>Advancing healthcare through machine learning</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Medical Disclaimer</h4>
+                    <p>This tool is for educational purposes only. Always consult healthcare providers.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Predictive Pulse | Version 2.0</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <span>Assessment complete!</span>
+    </div>
+
+    <script>
+        // Simple theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-moon')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Form submission
+        document.getElementById('patientForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Analyzing...</span>';
+        });
+
+        // Show toast if result exists
+        {% if result %}
+        const toast = document.getElementById('toast');
+        toast.style.display = 'flex';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+        {% endif %}
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
