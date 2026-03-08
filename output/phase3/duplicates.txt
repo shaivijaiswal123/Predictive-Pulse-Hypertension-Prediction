@@ -1,0 +1,2 @@
+Duplicate rows: 476
+Percentage: 26.08%

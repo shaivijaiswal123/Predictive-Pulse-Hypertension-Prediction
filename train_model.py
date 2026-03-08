@@ -1,213 +1,138 @@
 """
-Train Model Script for Hypertension Prediction
-Complete version with preprocessing, training, and evaluation
+Predictive Pulse - Phase 3: Dataset Loading
 """
-
-# Import required libraries
-import sys
-sys.stdout.reconfigure(encoding='utf-8')
 
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-import pickle
-import warnings
-warnings.filterwarnings('ignore')
+import os
+from datetime import datetime
 
 print("="*60)
-print("PREDICTIVE PULSE - HYPERTENSION PREDICTION SYSTEM")
+print("PREDICTIVE PULSE - PHASE 3: DATASET LOADING")
 print("="*60)
+
+# Create output directory for this phase
+os.makedirs('output/phase3', exist_ok=True)
 
 # STEP 1: Load the dataset
 print("\n📊 STEP 1: Loading Dataset")
 print("-"*40)
 
-try:
-    df = pd.read_csv('hypertension.csv')
-    print(f"✅ Dataset loaded successfully!")
-    print(f"   Shape: {df.shape[0]} rows × {df.shape[1]} columns")
-except FileNotFoundError:
-    print("❌ Error: hypertension.csv not found!")
+# Find dataset file in data folder
+data_files = [f for f in os.listdir('data') if f.endswith('.csv')]
+if not data_files:
+    print("❌ No CSV file found in data/ folder!")
     exit()
 
-# STEP 2: Remove duplicates
-print("\n🔍 STEP 2: Removing Duplicates")
-print("-"*40)
+dataset_path = os.path.join('data', data_files[0])
+print(f"📁 Loading: {dataset_path}")
 
-duplicates = df.duplicated().sum()
-print(f"   Number of duplicate rows: {duplicates}")
+try:
+    df = pd.read_csv(dataset_path)
+    print(f"✅ Dataset loaded successfully!")
+    print(f"   Shape: {df.shape[0]} rows × {df.shape[1]} columns")
+except Exception as e:
+    print(f"❌ Error loading dataset: {e}")
+    exit()
 
-if duplicates > 0:
-    df = df.drop_duplicates()
-    print(f"   ✅ Removed {duplicates} duplicates")
+# STEP 2: Display basic information
+print("\n📋 Dataset Columns:")
+for i, col in enumerate(df.columns, 1):
+    print(f"   {i}. {col}")
 
-print(f"   New shape: {df.shape}")
+print("\n📋 First 5 rows:")
+print(df.head())
 
-# STEP 3: Check missing values
-print("\n🔍 STEP 3: Checking Missing Values")
-print("-"*40)
+# Save to file
+df.head().to_csv('output/phase3/head.csv', index=False)
+print("\n💾 Saved first 5 rows to output/phase3/head.csv")
 
+# STEP 3: Dataset info
+print("\n📋 Dataset Info:")
+# Capture info as string
+import io
+buffer = io.StringIO()
+df.info(buf=buffer)
+info_str = buffer.getvalue()
+print(info_str)
+
+with open('output/phase3/info.txt', 'w') as f:
+    f.write(info_str)
+
+# STEP 4: Check missing values
+print("\n🔍 Checking for missing values:")
 missing = df.isnull().sum()
 print(missing)
 
-# STEP 4: Data Preprocessing
-print("\n🔄 STEP 4: Data Preprocessing")
-print("-"*40)
-
-# Rename columns to ML-friendly names
-df = df.rename(columns={
-'C':'Gender',
-'Age':'Age_Group',
-'History':'Family_History',
-'TakeMedication':'Medication',
-'Severity':'Symptom_Severity',
-'BreathShortness':'Shortness_Breath',
-'VisualChanges':'Visual_Changes',
-'NoseBleeding':'Nosebleeds',
-'Whendiagnoused':'Time_Since_Diagnosis',
-'Systolic':'Systolic_BP',
-'Diastolic':'Diastolic_BP',
-'ControlledDiet':'Diet_Control',
-'Stages':'Hypertension_Stage'
+missing_df = pd.DataFrame({
+    'Column': missing.index,
+    'Missing_Values': missing.values,
+    'Percentage': (missing.values / len(df) * 100).round(2)
 })
+missing_df.to_csv('output/phase3/missing_values.csv', index=False)
+print("\n💾 Saved missing values report to output/phase3/missing_values.csv")
 
-print("   ✓ Columns renamed")
+# STEP 5: Check for duplicates
+print("\n🔍 Checking for duplicates:")
+duplicates = df.duplicated().sum()
+print(f"   Number of duplicate rows: {duplicates}")
 
-# Encode Gender
-df['Gender'] = df['Gender'].map({
-'Male':0,
-'Female':1
+with open('output/phase3/duplicates.txt', 'w') as f:
+    f.write(f"Duplicate rows: {duplicates}\n")
+    if duplicates > 0:
+        f.write(f"Percentage: {(duplicates/len(df)*100):.2f}%")
+
+# STEP 6: Basic statistics
+print("\n📊 Basic Statistics:")
+stats = df.describe(include='all').round(2)
+print(stats)
+
+stats.to_csv('output/phase3/statistics.csv')
+print("\n💾 Saved statistics to output/phase3/statistics.csv")
+
+# STEP 7: Data types
+print("\n📊 Data Types:")
+dtypes = pd.DataFrame({
+    'Column': df.columns,
+    'Data_Type': df.dtypes.values,
+    'Unique_Values': [df[col].nunique() for col in df.columns]
 })
+print(dtypes)
+dtypes.to_csv('output/phase3/data_types.csv', index=False)
 
-# Encode Yes/No columns
-binary_cols = [
-'Family_History',
-'Medication',
-'Shortness_Breath',
-'Visual_Changes',
-'Nosebleeds',
-'Diet_Control'
-]
+# STEP 8: Value counts for categorical columns
+print("\n📊 Value Counts for Categorical Columns:")
+categorical_cols = df.select_dtypes(include=['object']).columns
+value_counts_dict = {}
 
-for col in binary_cols:
-    df[col] = df[col].astype(str).str.strip()
-    df[col] = df[col].map({
-    'Yes':1,
-    'No':0
-    })
+for col in categorical_cols:
+    print(f"\n{col}:")
+    counts = df[col].value_counts()
+    print(counts)
+    value_counts_dict[col] = counts
+    counts.to_csv(f'output/phase3/value_counts_{col}.csv')
 
-# Encode Age
-df['Age_Group'] = df['Age_Group'].map({
-'18-34':1,
-'35-50':2,
-'51-64':3,
-'65+':4
-})
+# Summary report
+summary = f"""
+DATASET LOADING SUMMARY
+=======================
+Date: {datetime.now()}
+Dataset: {data_files[0]}
+Rows: {df.shape[0]}
+Columns: {df.shape[1]}
+Missing Values: {missing.sum()}
+Duplicates: {duplicates}
+Categorical Columns: {len(categorical_cols)}
+Numerical Columns: {len(df.select_dtypes(include=[np.number]).columns)}
 
-# Encode Severity
-df['Symptom_Severity'] = df['Symptom_Severity'].map({
-'Mild':0,
-'Moderate':1,
-'Severe':2,
-'Sever':2
-})
+Columns:
+{', '.join(df.columns)}
+"""
 
-# Encode Time Since Diagnosis
-df['Time_Since_Diagnosis'] = df['Time_Since_Diagnosis'].map({
-'<1 Year':0,
-'1-5 Years':1,
-'5-10 Years':2,
-'10+ Years':3
-})
-
-# Encode Target
-df['Hypertension_Stage'] = df['Hypertension_Stage'].map({
-'NORMAL':0,
-'HYPERTENSION (Stage-1)':1,
-'HYPERTENSION (Stage-2)':2,
-'HYPERTENSIVE CRISIS':3
-})
-
-print("   ✓ Categorical features encoded")
-
-# Convert BP ranges to numbers
-def convert_bp(value):
-
-    value = str(value)
-
-    if "-" in value:
-        low, high = value.split("-")
-        return (float(low) + float(high)) / 2
-
-    return float(value)
-
-df['Systolic_BP'] = df['Systolic_BP'].apply(convert_bp)
-df['Diastolic_BP'] = df['Diastolic_BP'].apply(convert_bp)
-
-print("   ✓ Blood pressure converted to numeric")
-
-print("\n   ✅ All features properly encoded!")
-
-# STEP 5: Feature Selection
-print("\n🔧 STEP 5: Feature Selection")
-print("-"*40)
-
-feature_columns = [
-'Gender',
-'Age_Group',
-'Family_History',
-'Medication',
-'Time_Since_Diagnosis',
-'Symptom_Severity',
-'Shortness_Breath',
-'Visual_Changes',
-'Nosebleeds',
-'Diet_Control',
-'Systolic_BP',
-'Diastolic_BP'
-]
-
-X = df[feature_columns]
-y = df['Hypertension_Stage']
-
-print(f"   Features ({len(feature_columns)}):")
-
-for i,feat in enumerate(feature_columns,1):
-    print(f"     {i}. {feat}")
-
-print("\n   Target: Hypertension_Stage")
-
-# STEP 6: Feature Scaling
-print("\n📏 STEP 6: Feature Scaling (MinMaxScaler)")
-print("-"*40)
-
-scaler = MinMaxScaler()
-
-X_scaled = scaler.fit_transform(X)
-
-print("   ✅ Features scaled")
-
-with open('scaler.pkl','wb') as f:
-    pickle.dump(scaler,f)
-
-print("   💾 Scaler saved")
-
-# STEP 7: Train Test Split
-print("\n✂️ STEP 7: Train-Test Split")
-print("-"*40)
-
-X_train,X_test,y_train,y_test = train_test_split(
-X_scaled,
-y,
-test_size=0.2,
-random_state=42,
-stratify=y
-)
-
-print(f"   Training set size: {len(X_train)}")
-print(f"   Testing set size: {len(X_test)}")
+with open('output/phase3/summary.txt', 'w') as f:
+    f.write(summary)
 
 print("\n" + "="*60)
-print("✅ PHASE 4 COMPLETE: Data Preprocessing Finished")
+print("✅ PHASE 3 COMPLETE!")
+print("📁 All outputs saved to output/phase3/")
 print("="*60)

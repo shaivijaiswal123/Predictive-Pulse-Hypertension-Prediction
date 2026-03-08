@@ -1,0 +1,14 @@
+
+DATASET LOADING SUMMARY
+=======================
+Date: 2026-03-08 16:30:44.140204
+Dataset: hypertension_data.csv
+Rows: 1825
+Columns: 14
+Missing Values: 0
+Duplicates: 476
+Categorical Columns: 14
+Numerical Columns: 0
+
+Columns:
+C, Age, History, Patient, TakeMedication, Severity, BreathShortness, VisualChanges, NoseBleeding, Whendiagnoused, Systolic, Diastolic, ControlledDiet, Stages

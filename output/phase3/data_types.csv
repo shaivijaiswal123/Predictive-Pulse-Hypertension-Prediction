@@ -1,0 +1,15 @@
+Column,Data_Type,Unique_Values
+C,str,2
+Age,str,4
+History,str,2
+Patient,str,2
+TakeMedication,str,3
+Severity,str,3
+BreathShortness,str,2
+VisualChanges,str,2
+NoseBleeding,str,3
+Whendiagnoused,str,3
+Systolic,str,5
+Diastolic,str,5
+ControlledDiet,str,2
+Stages,str,6

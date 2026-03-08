@@ -1,0 +1,6 @@
+C,Age,History,Patient,TakeMedication,Severity,BreathShortness,VisualChanges,NoseBleeding,Whendiagnoused,Systolic,Diastolic,ControlledDiet,Stages
+Male,18-34,Yes,No,No,Mild,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)
+Female,18-34,Yes,No,No,Mild,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)
+Male,35-50,Yes,No,No,Mild,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)
+Female,35-50,Yes,No,No,Mild,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)
+Male,51-64,Yes,No,No,Mild,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)

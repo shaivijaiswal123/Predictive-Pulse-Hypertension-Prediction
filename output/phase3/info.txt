@@ -1,0 +1,21 @@
+<class 'pandas.DataFrame'>
+RangeIndex: 1825 entries, 0 to 1824
+Data columns (total 14 columns):
+ #   Column           Non-Null Count  Dtype
+---  ------           --------------  -----
+ 0   C                1825 non-null   str  
+ 1   Age              1825 non-null   str  
+ 2   History          1825 non-null   str  
+ 3   Patient          1825 non-null   str  
+ 4   TakeMedication   1825 non-null   str  
+ 5   Severity         1825 non-null   str  
+ 6   BreathShortness  1825 non-null   str  
+ 7   VisualChanges    1825 non-null   str  
+ 8   NoseBleeding     1825 non-null   str  
+ 9   Whendiagnoused   1825 non-null   str  
+ 10  Systolic         1825 non-null   str  
+ 11  Diastolic        1825 non-null   str  
+ 12  ControlledDiet   1825 non-null   str  
+ 13  Stages           1825 non-null   str  
+dtypes: str(14)
+memory usage: 199.7 KB

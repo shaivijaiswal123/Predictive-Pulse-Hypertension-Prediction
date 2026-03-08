@@ -1,0 +1,5 @@
+,C,Age,History,Patient,TakeMedication,Severity,BreathShortness,VisualChanges,NoseBleeding,Whendiagnoused,Systolic,Diastolic,ControlledDiet,Stages
+count,1825,1825,1825,1825,1825,1825,1825,1825,1825,1825,1825,1825,1825,1825
+unique,2,4,2,2,3,3,2,2,3,3,5,5,2,6
+top,Female,51-64,Yes,No,No,Moderate,No,No,No ,<1 Year,111 - 120,81 - 90,No,HYPERTENSION (Stage-1)
+freq,913,475,1657,984,744,697,976,940,984,625,1008,708,984,648
