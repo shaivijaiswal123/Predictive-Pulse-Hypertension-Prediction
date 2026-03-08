@@ -1,0 +1,7 @@
+
+Setup Verification Log
+Date: 2026-03-08 15:31:59.517662
+Python Version: 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]
+Virtual Environment: Active
+Packages: ['numpy', 'pandas', 'sklearn', 'matplotlib', 'seaborn', 'flask']
+Folders: ['data', 'output', 'static', 'templates']
